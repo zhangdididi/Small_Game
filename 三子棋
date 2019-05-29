@@ -60,7 +60,7 @@
     		scanf("%d %d", &m, &n);
     		if (m >= 1 && m <= row && n >= 1 && n <= col)
     		{
-    			if (board[m - 1][n - 1] == ' ')
+    			if (board[m - 1][n - 1] == ' ')//判定棋盘是否为空
     			{
     				board[m - 1][n - 1] = 'X';
     				break;
