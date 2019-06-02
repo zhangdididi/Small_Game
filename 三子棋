@@ -13,7 +13,7 @@
     static int  isFull(char board[ROW][COL], int row, int col);
     char judgeboard(char board[ROW][COL], int row, int col);
      
-    #include "game.h"
+    #include "game.h"//引用头文件
     void menu()//打印菜单
     {
     	printf("*****************************\n");
@@ -59,12 +59,12 @@
     	printf("玩家走:\n");
     	while (1)
     	{
-    		scanf("%d %d", &m, &n);
+    		scanf("%d %d", &m, &n);//输入玩家下棋的坐标
     		if (m >= 1 && m <= row && n >= 1 && n <= col)
     		{
     			if (board[m - 1][n - 1] == ' ')//判定棋盘是否为空
     			{
-    				board[m - 1][n - 1] = 'X';
+    				board[m - 1][n - 1] = 'X';//X表示玩家棋子
     				break;
     			}
     			else
@@ -91,14 +91,14 @@
     		n = rand() % col;//m和n生成1-3的随机值
     		if (board[m][n] == ' ')
     		{
-    			board[m][n] = 'O';
+    			board[m][n] = 'O';//O表示电脑棋子
     			break;
     		}
     	}
     }
     
     //判断棋盘是否已满
-    static int  isFull(char board[ROW][COL], int row, int col)
+    static int isFull(char board[ROW][COL], int row, int col)
     {
     	int i = 0;
     	int j = 0;
