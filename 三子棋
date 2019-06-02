@@ -21,7 +21,7 @@
     	printf("********** 0.quit ***********\n");
     	printf("*****************************\n");
     }
-
+    
     //初始化函数
     void lnit_board(char board[ROW][COL], int row, int col)
     {
@@ -35,6 +35,7 @@
     		}
     	}
     }
+   
     //打印棋盘函数
     void print_board(char board[ROW][COL], int row, int col)
     {
@@ -49,6 +50,7 @@
     	}
     	printf("\n");
     }
+    
     //玩家下棋函数
     void playboard(char board[ROW][COL],int row, int col)
     {
@@ -76,6 +78,7 @@
     		}
     	}
     }
+    
     //电脑下棋函数
     void computerboard(char board[ROW][COL], int row, int col)
     {
@@ -93,6 +96,7 @@
     		}
     	}
     }
+    
     //判断棋盘是否已满
     static int  isFull(char board[ROW][COL], int row, int col)
     {
@@ -108,6 +112,7 @@
     	}
     	return 1;
     }
+    
     //判断输赢函数
     char judgeboard(char board[ROW][COL], int row, int col)
     {
@@ -136,6 +141,7 @@
     	}
     	return ' ';
     }
+    //游戏执行函数
     void game()
     {
     	int i = 0;
@@ -173,6 +179,8 @@
     		printf("平局\n");
     	}
     }
+    
+    //运行
     void test()
     {
     	int choice = 0;
@@ -189,7 +197,7 @@
     		printf("输入错误,游戏关闭.\n");
         }
     }
-
+    //主函数
     #include "game.h"
     int main()
     {
