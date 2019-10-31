@@ -1,0 +1,261 @@
+import java.util.*;
+
+//扑克牌类
+class Card {
+    public String suit;//花色
+    public String rank;//点数
+
+    public Card(String suit, String rank) {
+        this.suit = suit;
+        this.rank = rank;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + suit + " " + rank +  ")";
+    }
+}
+
+//给每种牌型按数字排序大小，以便比较出游戏结果
+class CardType {
+
+}
+
+public class CardDemo {
+
+    class cardType {
+
+    }
+    //无对 Zilch 不能排成以上组合的牌，以点数决定大小。
+    public static final int Zilch = 1;
+    //一对One Pair  两张相同点数的牌。
+    public static final int OnePair = 2;
+    //两对 Two Pairs  两张相同点数的牌，加另外两张相同点数的牌
+    public static final int TwoPairs = 3;
+    //三条 ThreeOfAKind  有三张同一点数的牌。
+    public static final int ThreeOfAKind = 4;
+    //顺子 Straight  五张顺连的牌。
+    public static final int Straight = 5;
+    //同花 Flush  五张同一花色的牌。
+    public static final int Flush = 6;
+    //满堂红 Fullhouse  三张同一点数的牌，加一对其他点数的牌
+    public static final int FullHouse = 7;
+    //四条 FourOfAKind  有四张同一点数的牌。
+    public static final int FourOfAKind = 8;
+    //同花顺 Straight Flush  同一花色，顺序的牌。
+    public static final int straightFlush = 9;
+    //同花大顺 Royal Flush 最高为Ace（一点）的同花顺
+    public static final int royalFlush = 10;
+
+    //黑桃>红桃>草花>方块
+    public static final String[] SUITS = {"♠", "♥", "♣", "♦"};
+
+    public static List<Card> newPoker() {
+        List<Card> poker = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 2; j <= 10; j++) {
+                poker.add(new Card(SUITS[i],j + ""));
+            }
+            poker.add(new Card(SUITS[i] , "J"));
+            poker.add(new Card(SUITS[i] , "Q"));
+            poker.add(new Card(SUITS[i] , "K"));
+            poker.add(new Card(SUITS[i] , "A"));
+        }
+        return poker;
+    }
+
+    public static void main(String[] args) {
+        //创建一副牌
+
+        System.out.println("创建一副牌");
+        List<Card> poker = newPoker();
+        //洗牌
+        Collections.shuffle(poker);
+        System.out.println(poker);
+        //发牌
+        List<List<Card>> players = new ArrayList<>();
+        //新增三个列表 表示三个玩家的三副牌
+        players.add(new ArrayList<Card>());
+        players.add(new ArrayList<Card>());
+        players.add(new ArrayList<Card>());
+
+        //依次发牌
+        for (int cardIndex = 0; cardIndex < 5; cardIndex++) {
+            for (int playerIndex = 0; playerIndex < 2; playerIndex++) {
+                //players.get(playerIndex).add(poker.remove(0));
+                //get 一般表示读取数据， 但也可以借助 get 来修改数据
+                List<Card> playerCards = players.get(playerIndex);//先得到一个玩家数组
+                Card curCard = poker.remove(0);//拿到这副牌最上面的一张
+                playerCards.add(curCard);//将拿到的牌给到玩家手中
+            }
+        }
+
+        //展示两个玩家被发到的扑克牌
+        System.out.println("玩家1：");
+        System.out.println(players.get(0));
+        System.out.println("玩家2：");
+        System.out.println(players.get(1));
+
+
+        //新建两个玩家的点数表和花色表
+        int[] RankOfPlayer1 = getRankArray(players.get(0));
+        int[] SuitOfPlayer1 = getSuitArray(players.get(0));
+        int[] RankOfPlayer2 = getRankArray(players.get(1));
+        int[] SuitOfPlayer2 = getSuitArray(players.get(1));
+
+        int typeOfPlayer1 = pokerType(RankOfPlayer1, SuitOfPlayer1);
+        int typeOfPlayer2 = pokerType(RankOfPlayer2, SuitOfPlayer2);
+
+        printType(typeOfPlayer1);
+        printType(typeOfPlayer2);
+
+
+    }
+
+    private static void printType(int key) {
+        if (key == 1) {
+            System.out.println("无对儿");
+        } else if (key == 2) {
+            System.out.println("一对儿");
+        } else if (key == 3) {
+            System.out.println("两对儿");
+        } else if (key == 4) {
+            System.out.println("三条儿");
+        } else if (key == 5) {
+            System.out.println("顺子");
+        } else if (key == 6) {
+            System.out.println("同花");
+        } else if (key == 7) {
+            System.out.println("满堂红");
+        } else if (key == 8) {
+            System.out.println("四条");
+        } else if (key == 9) {
+            System.out.println("同花顺");
+        } else if (key == 10) {
+            System.out.println("同花大顺");
+        } else {
+            System.out.println("无牌型");
+        }
+    }
+
+    //花色用数字表示以便比较  "♥"  1 , "♠"   2  , "♣"  3  , "♦"  4
+    public static int getSuit(String str) {
+        //黑桃>红桃>草花>方块  4  3  2  1
+        if ("♦".equals(str)) {
+            return 1;
+        } else if ("♣".equals(str)) {
+            return 2;
+        } else if ("♥".equals(str)) {
+            return 3;
+        } else if ("♠".equals(str)) {
+            return 4;
+        } else {
+            return 0;
+        }
+    }
+
+    //点数都用数字表示以便比较
+    public static int getRank(String str) {
+        for (int i = 2; i < 11; i++) {
+            if (("" + i).equals(str)) {
+                return i;
+            }
+        }
+        if ("A".equals(str)) {
+            return 1;
+        } else if ("J".equals(str)) {
+            return 11;
+        } else if ("Q".equals(str)) {
+            return 12;
+        } else if ("K".equals(str)) {
+            return 13;
+        } else {
+            return 0;
+        }
+    }
+
+    //创建一个玩家的点数数组
+    public static int[] getRankArray(List<Card> card) {
+        int[] rankArray = new int[14];
+        for (int i = 0; i < 5; i++) {
+            int tmp = getRank(card.get(i).rank);
+            rankArray[tmp]++;
+        }
+        return rankArray;
+    }
+
+    //创建一个玩家的花色数组
+    public static int[] getSuitArray(List<Card> card) {
+        int[] suitArray = new int[5];
+        for (int i = 0; i < 5; i++) {
+            int tmp = getSuit(card.get(i).suit);
+            suitArray[tmp]++;
+        }
+        return suitArray;
+    }
+
+    //判断玩家手中是哪副牌，并返回相对应的正数值
+    public static int pokerType(int[] rankArray, int[] suitArray) {
+        //创建两个 ArrayList 用来保存扑克牌的花色数量和点数数量
+        //同时利用 size 和 contains 功能来对牌型进行判断
+        List<Integer> aRank = new ArrayList<>();
+        List<Integer> aSuit = new ArrayList<>();
+        for (int i = 1; i <= 13; i++) {
+            if (rankArray[i] != 0) {
+                aRank.add(rankArray[i]);
+            }
+        }
+        for (int i = 1; i <= 4; i++) {
+            if (suitArray[i] != 0) {
+                aSuit.add(suitArray[i]);
+            }
+        }
+
+        if (aRank.size() == 2) {
+            if (aRank.contains(4)) {
+                //四条：有四张同一点数的牌 返回8
+                return FourOfAKind;
+            } else {
+                //满堂红：三张同一点数的牌，加一对其他点数的牌 返回7
+                return FullHouse;
+            }
+        } else if (aRank.size() == 3) {
+            if (aRank.contains(3)) {
+                //三条 有三张同一点数的牌 返回4
+                return ThreeOfAKind;
+            } else {
+                //两对 两张相同点数的牌，加另外两张相同点数的牌 返回
+                return TwoPairs;
+            }
+        } else if (aRank.size() == 4) {
+            //一对 One Pair 两张相同点数的牌。
+            return OnePair;
+        } else if (aRank.size() == 5) {
+            int aSort = 0;
+            for (int i = 2; i < rankArray.length; i++) {
+                if (rankArray[i - 1] == 1 && rankArray[i] == 1) {
+                    aSort++;
+                }
+            }
+            if (aSort == 4 && aSuit.contains(5)) {
+                //同花顺  同一花色，顺序的牌。
+                return straightFlush;
+            } else if (aSort == 4 && aSuit.contains(5)
+                    && rankArray[1] == 1 && rankArray[13] == 1) {
+                //同花大顺  10 J Q K A
+                return royalFlush;
+            } else if (aSort == 4){
+                //顺子  五张顺连的牌
+                return Straight;
+            } else {
+                //无对 Zilch 不能排成以上组合的牌，以点数决定大小。
+                return Zilch;
+            }
+        }
+        return 0;
+    }
+
+    public static int compare() {
+        return 0;
+    }
+}
