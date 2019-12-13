@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 //扑克牌类
 class Card {
     public String suit;//花色
@@ -17,16 +16,8 @@ class Card {
     }
 }
 
-//给每种牌型按数字排序大小，以便比较出游戏结果
-class CardType {
-
-}
-
 public class CardDemo {
 
-    class cardType {
-
-    }
     //无对 Zilch 不能排成以上组合的牌，以点数决定大小。
     public static final int Zilch = 1;
     //一对One Pair  两张相同点数的牌。
@@ -78,7 +69,6 @@ public class CardDemo {
         //新增三个列表 表示三个玩家的三副牌
         players.add(new ArrayList<Card>());
         players.add(new ArrayList<Card>());
-        players.add(new ArrayList<Card>());
 
         //依次发牌
         for (int cardIndex = 0; cardIndex < 5; cardIndex++) {
@@ -91,13 +81,6 @@ public class CardDemo {
             }
         }
 
-        //展示两个玩家被发到的扑克牌
-        System.out.println("玩家1：");
-        System.out.println(players.get(0));
-        System.out.println("玩家2：");
-        System.out.println(players.get(1));
-
-
         //新建两个玩家的点数表和花色表
         int[] RankOfPlayer1 = getRankArray(players.get(0));
         int[] SuitOfPlayer1 = getSuitArray(players.get(0));
@@ -106,12 +89,14 @@ public class CardDemo {
 
         int typeOfPlayer1 = pokerType(RankOfPlayer1, SuitOfPlayer1);
         int typeOfPlayer2 = pokerType(RankOfPlayer2, SuitOfPlayer2);
-
-        //compare(typeOfPlayer1, typeOfPlayer2);
+        
+                //展示两个玩家被发到的扑克牌
+        System.out.println("玩家1：");
+        System.out.println(players.get(0));
         printType(typeOfPlayer1);
+        System.out.println("玩家2：");
+        System.out.println(players.get(1));
         printType(typeOfPlayer2);
-
-
 
         double score1 = getScore(typeOfPlayer1, RankOfPlayer1, SuitOfPlayer1);
         double score2 = getScore(typeOfPlayer2, RankOfPlayer2, SuitOfPlayer2);
